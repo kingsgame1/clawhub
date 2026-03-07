@@ -1,0 +1,31 @@
+{
+  "name": "twitter-multi-account",
+  "version": "1.0.0",
+  "description": "多账户 Twitter/X 批量管理系统，支持并发发帖、日程安排、互动追踪、数据分析",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "add-account": "python3 scripts/add_account.py",
+    "list-accounts": "python3 scripts/list_accounts.py",
+    "post": "python3 scripts/post.py"
+  },
+  "keywords": [
+    "twitter",
+    "x",
+    "social-media",
+    "multi-account",
+    "automation"
+  ],
+  "author": "SilverMoon",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingsgame1/clawhub.git"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

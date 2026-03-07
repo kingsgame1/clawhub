@@ -1,0 +1,29 @@
+{
+  "name": "price-alerts",
+  "version": "1.0.0",
+  "description": "智能价格波动警报系统，支持加密货币、股票、外汇多市场实时监控",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "init": "python3 scripts/init_config.py",
+    "monitor": "python3 scripts/start_monitor.py"
+  },
+  "keywords": [
+    "price-alerts",
+    "crypto",
+    "trading",
+    "monitoring"
+  ],
+  "author": "SilverMoon",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kingsgame1/clawhub.git"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
