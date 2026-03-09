@@ -1,0 +1,8 @@
+{
+  "instance_url": "https://searx.work",
+  "default_engines": ["google", "bing", "duckduckgo"],
+  "default_language": "zh-CN",
+  "default_limit": 10,
+  "safe_search": 0,
+  "timeout": 10
+}

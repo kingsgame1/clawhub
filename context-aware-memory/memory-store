@@ -1,0 +1,59 @@
+#!/bin/bash
+# Memory Store - Store a new memory with context anchors
+# Usage: memory-store --content "text" --tags "tag1,tag2" --value 0.8
+
+set -e
+
+MEMORY_DIR="${MEMORY_DIR:-$HOME/.agents/memory}"
+WORKSPACE_DIR="${WORKSPACE_DIR:-$HOME/.openclaw/workspace}"
+
+# Parse arguments
+CONTENT=""
+TAGS=""
+VALUE="0.5"
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --content) CONTENT="$2"; shift 2 ;;
+        --tags) TAGS="$2"; shift 2 ;;
+        --value) VALUE="$2"; shift 2 ;;
+        *) shift ;;
+    esac
+done
+
+if [[ -z "$CONTENT" ]]; then
+    echo "Error: --content is required"
+    exit 1
+fi
+
+# Create memory directory
+mkdir -p "$MEMORY_DIR"
+
+# Generate memory ID
+MEMORY_ID=$(date +%Y%m%d%H%M%S)_$(head /dev/urandom | tr -dc 'a-z0-9' | head -c 6)
+
+# Create memory entry
+TIMESTAMP=$(date -Iseconds)
+TODAY=$(date +%Y-%m-%d)
+
+# Append to today's log
+LOGFILE="$WORKSPACE_DIR/memory/$TODAY.md"
+if [[ -f "$LOGFILE" ]]; then
+    echo "" >> "$LOGFILE"
+    echo "## Memory Entry [$MEMORY_ID]" >> "$LOGFILE"
+    echo "**Time**: $TIMESTAMP" >> "$LOGFILE"
+    echo "**Tags**: $TAGS" >> "$LOGFILE"
+    echo "**Value**: $VALUE" >> "$LOGFILE"
+    echo "" >> "$LOGFILE"
+    echo "$CONTENT" >> "$LOGFILE"
+    echo "" >> "$LOGFILE"
+    echo "---" >> "$LOGFILE"
+fi
+
+# Also store in memory index
+INDEX_FILE="$MEMORY_DIR/index.jsonl"
+echo "{\"id\":\"$MEMORY_ID\",\"timestamp\":\"$TIMESTAMP\",\"tags\":\"$TAGS\",\"value\":$VALUE,\"content\":\"${CONTENT:0:200}\"}" >> "$INDEX_FILE"
+
+echo "✅ Memory stored successfully"
+echo "   ID: $MEMORY_ID"
+echo "   Value: $VALUE"
+echo "   Tags: $TAGS"

@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-02-22T16:19:29Z",
+  "score": 85,
+  "level": "极度贪婪",
+  "emoji": "🤑",
+  "recommendation": "大幅减仓或对冲",
+  "indicators": {
+    "naaim_exposure": 85,
+    "institutional_equity": "历史极值",
+    "retail_net_buy": 92,
+    "sp500_forward_pe": 23.5
+  },
+  "counts": {
+    "greed_signals": 3,
+    "panic_signals": 0
+  },
+  "warnings": ["NAAIM 暴露指数 85 > 80，偏向过热", "机构股票配置处于历史极值，过热信号", "散户净买入 92% 历史水平，过热"]
+}

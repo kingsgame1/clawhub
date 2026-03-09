@@ -1,0 +1,37 @@
+{
+  "timestamp": "2026-02-23T00:38:48Z",
+  "summary": {
+    "avg_score": 70,
+    "overall_signal": "STRONG BUY",
+    "assets_monitored": 1
+  },
+  "assets": [
+    {
+      "symbol": "BTC",
+      "coin_id": "bitcoin",
+      "timestamp": "2026-02-23T00:38:41Z",
+      "price": {
+        "current": 67274,
+        "change_24h": -0.8494189114108622
+      },
+      "indicators": {
+        "rsi": 39.40,
+        "mvrv": 0.5335,
+        "fear_greed": {
+          "value": 5,
+          "classification": "Extreme Fear"
+        },
+        "ath": 126080,
+        "ath_change": -46.63944,
+        "market_cap": 1345924525422
+      },
+      "analysis": {
+        "score": 70,
+        "signal": "buy",
+        "signals": [
+          "极度恐慌: Extreme Fear"
+        ]
+      }
+    }
+  ]
+}

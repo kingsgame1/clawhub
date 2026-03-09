@@ -1,0 +1,91 @@
+#!/bin/bash
+# Context-Aware Memory Manager CLI
+# Usage: memory-context [--task "task"] [--conversation "topics"] [--limit N]
+
+set -e
+
+MEMORY_DIR="${MEMORY_DIR:-$HOME/.agents/memory}"
+WORKSPACE_DIR="${WORKSPACE_DIR:-$HOME/.openclaw/workspace}"
+DECAY_RATE="${DECAY_RATE:-0.02}"
+ACTIVATION_THRESHOLD="${ACTIVATION_THRESHOLD:-0.3}"
+LIMIT="${LIMIT:-5}"
+
+# Parse arguments
+TASK=""
+CONVERSATION=""
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --task) TASK="$2"; shift 2 ;;
+        --conversation) CONVERSATION="$2"; shift 2 ;;
+        --limit) LIMIT="$2"; shift 2 ;;
+        *) shift ;;
+    esac
+done
+
+# Function to compute relevance score
+compute_score() {
+    local content="$1"
+    local timestamp="$2"
+    local tags="$3"
+    
+    # Base score
+    local score=0.5
+    
+    # Keyword matching
+    if [[ -n "$TASK" ]]; then
+        for kw in $(echo "$TASK" | tr ' ' '\n' | head -10); do
+            if echo "$content" | grep -qi "$kw"; then
+                score=$(echo "$score + 0.1" | bc 2>/dev/null || echo "0.6")
+            fi
+        done
+    fi
+    
+    # Recency factor (simplified)
+    score=$(echo "$score + 0.2" | bc 2>/dev/null || echo "0.7")
+    
+    echo "$score"
+}
+
+# Search memories
+echo "🔍 Searching relevant memories..."
+echo ""
+
+# Search daily logs
+for logfile in $(ls -t $WORKSPACE_DIR/memory/2*.md 2>/dev/null | head -7); do
+    if [[ -f "$logfile" ]]; then
+        date_str=$(basename "$logfile" .md)
+        content=$(cat "$logfile" 2>/dev/null | head -100)
+        
+        if [[ -n "$content" ]]; then
+            score=$(compute_score "$content" "$date_str" "")
+            
+            if (( $(echo "$score >= $ACTIVATION_THRESHOLD" | bc -l 2>/dev/null) )); then
+                echo "[Score: $score] 📅 $date_str"
+                echo "$content" | grep -v "^#" | grep -v "^$" | head -3
+                echo "---"
+                echo ""
+            fi
+        fi
+    fi
+done
+
+# Search project files
+for projfile in $(ls $WORKSPACE_DIR/memory/projects/*.md 2>/dev/null | head -10); do
+    if [[ -f "$projfile" ]]; then
+        proj_name=$(basename "$projfile" .md)
+        content=$(cat "$projfile" 2>/dev/null | head -50)
+        
+        if [[ -n "$content" ]]; then
+            score=$(compute_score "$content" "$(date +%Y-%m-%d)" "")
+            
+            if (( $(echo "$score >= $ACTIVATION_THRESHOLD" | bc -l 2>/dev/null) )); then
+                echo "[Score: $score] 📋 Project: $proj_name"
+                echo "$content" | grep -v "^#" | grep -v "^$" | head -2
+                echo "---"
+                echo ""
+            fi
+        fi
+    fi
+done
+
+echo "✅ Memory context scan complete"

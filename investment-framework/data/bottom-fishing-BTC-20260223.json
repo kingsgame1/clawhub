@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-02-22T16:19:29Z",
+  "asset": "BTC",
+  "indicators_hit": 6,
+  "score": "6/6",
+  "recommendation": "重仓抄底",
+  "position": "50%",
+  "strategy": "一次性建仓",
+  "indicators": {
+    "rsi_weekly": 28,
+    "volume_ratio": 0.75,
+    "mvrv_ratio": 0.95,
+    "fear_greed_index": 82,
+    "price_current": 41000,
+    "price_shutdown": 42000,
+    "lth_ratio": 62
+  },
+  "thresholds": {
+    "rsi_weekly": "< 30",
+    "volume_ratio": "< 1.0",
+    "mvrv_ratio": "< 1.0",
+    "fear_greed_index": "> 75",
+    "price_comparison": "< 矿机关机价",
+    "lth_ratio": "> 60%"
+  }
+}

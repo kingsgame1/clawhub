@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-02-23T00:22:17Z",
+  "summary": {
+    "avg_score": 70,
+    "overall_signal": "strong buy",
+    "assets_monitored": 2
+  },
+  "assets": [
+    {
+      "symbol": "BTC",
+      "coin_id": "bitcoin",
+      "timestamp": "2026-02-23T00:22:18Z",
+      "price": {
+        "current": 67589,
+        "change_24h": -0.6078936659544206
+      },
+      "indicators": {
+        "rsi": 40.12,
+        "mvrv": 0.5360,
+        "fear_greed": {
+          "value": 5,
+          "classification": "Extreme Fear"
+        },
+        "ath": 126080,
+        "ath_change": -46.39199,
+        "market_cap": 1351411497580
+      },
+      "analysis": {
+        "score": 70,
+        "signal": "buy",
+        "signals": [
+          "极度恐慌: Extreme Fear"
+        ]
+      }
+    },
+    {
+      "symbol": "ETH",
+      "coin_id": "ethereum",
+      "timestamp": "2026-02-23T00:22:19Z",
+      "price": {
+        "current": 1953.47,
+        "change_24h": -1.0132305721879138
+      },
+      "indicators": {
+        "rsi": 37.50,
+        "mvrv": 0.3949,
+        "fear_greed": {
+          "value": 5,
+          "classification": "Extreme Fear"
+        },
+        "ath": 4946.05,
+        "ath_change": -60.50007,
+        "market_cap": 235785788625
+      },
+      "analysis": {
+        "score": 70,
+        "signal": "buy",
+        "signals": [
+          "极度恐慌: Extreme Fear"
+        ]
+      }
+    }
+  ]
+}

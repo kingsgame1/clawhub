@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-02-22T16:19:29Z",
+  "score": 90,
+  "level": "安全",
+  "recommendation": "持有",
+  "thresholds": {
+    "net_liquidity_change": "1.2%",
+    "sofr": "5.3%",
+    "move_index": 115
+  },
+  "warnings": ["SOFR 超过 5.0%"]
+}

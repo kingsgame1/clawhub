@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-02-22T16:19:29Z",
+  "date": "20260223",
+  "liquidity": {
+    "score": 90,
+    "level": "安全",
+    "recommendation": "持有"
+  },
+  "sentiment": {
+    "score": 85,
+    "level": "极度贪婪",
+    "emoji": "🤑",
+    "recommendation": "大幅减仓或对冲"
+  },
+  "bottom_fishing": {
+    "enabled": true,
+    "score": 6,
+    "recommendation": "重仓抄底"
+  },
+  "recommendation": {
+    "score": 87,
+    "action": "保持仓位",
+    "position": "70-80%"
+  }
+}

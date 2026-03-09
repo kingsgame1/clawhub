@@ -1,0 +1,52 @@
+#!/bin/bash
+# Memory Stats - View memory system statistics
+# Usage: memory-stats
+
+MEMORY_DIR="${MEMORY_DIR:-$HOME/.agents/memory}"
+WORKSPACE_DIR="${WORKSPACE_DIR:-$HOME/.openclaw/workspace}"
+
+echo "📊 Memory System Statistics"
+echo "============================"
+echo ""
+
+# Count daily logs
+DAILY_COUNT=$(ls $WORKSPACE_DIR/memory/2*.md 2>/dev/null | wc -l)
+echo "📅 Daily Logs: $DAILY_COUNT"
+
+# Count project files
+PROJECT_COUNT=$(ls $WORKSPACE_DIR/memory/projects/*.md 2>/dev/null | wc -l)
+echo "📋 Project Files: $PROJECT_COUNT"
+
+# Count module files
+MODULE_COUNT=$(ls $WORKSPACE_DIR/memory/modules/*.md 2>/dev/null | wc -l)
+echo "📖 Module Files: $MODULE_COUNT"
+
+# Memory index stats
+if [[ -f "$MEMORY_DIR/index.jsonl" ]]; then
+    INDEX_COUNT=$(wc -l < "$MEMORY_DIR/index.jsonl")
+    echo "💾 Indexed Memories: $INDEX_COUNT"
+fi
+
+# Git status
+cd "$WORKSPACE_DIR" 2>/dev/null
+GIT_COMMITS=$(git log --oneline 2>/dev/null | wc -l)
+echo "🔧 Git Commits: $GIT_COMMITS"
+
+# Last update
+LAST_LOG=$(ls -t $WORKSPACE_DIR/memory/2*.md 2>/dev/null | head -1)
+if [[ -n "$LAST_LOG" ]]; then
+    LAST_DATE=$(basename "$LAST_LOG" .md)
+    echo "📆 Last Log: $LAST_DATE"
+fi
+
+echo ""
+echo "✅ Memory system healthy"
+
+# Health check
+if [[ $DAILY_COUNT -lt 7 ]]; then
+    echo "⚠️ Warning: Less than 7 days of logs"
+fi
+
+if [[ $GIT_COMMITS -lt 10 ]]; then
+    echo "⚠️ Warning: Less than 10 git commits"
+fi

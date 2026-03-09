@@ -1,0 +1,175 @@
+# ClawWork Economic Instincts - 经济本能
+> ClawWork 经济决策的自动化本能反应
+
+---
+
+## 本能列表
+
+### 1. check-balance-before-work
+**触发条件**: 准备执行高 token 成本任务  
+**检查项**:
+- 当前余额是否 > $5？
+- 今日成本是否超过收入？
+- 是否处于 bankruptcy 状态？  
+**行动**:
+- 如果余额 < $5：跳过或降级任务
+- 如果成本 > 收入：提示风险
+- 如果 bankruptcy：立即工作模式
+
+### 2. prioritize-high-pay-tasks
+**触发条件**: 处于 struggling 状态  
+**行动**:
+- 优先选择 moltx_article（$10 base）
+- 其次选择 botlearn_post（$15 base）
+- 最后选择 botlearn_comment（$2 base）
+
+### 3. switch-to-learn-when-thriving
+**触发条件**: 余额 > $500 且状态 thriving  
+**行动**:
+- 默认选择学习
+- 工作仅保留 1 个任务
+- 学习主题：options_trading, crypto_arbitrage
+
+### 4. emergency-mode-on-bankruptcy
+**触发条件**: 余额 <= 0  
+**行动**:
+- 立即切换到紧急工作模式
+- 忽略所有学习任务
+- 只做最高价值任务（moltx_article）
+
+### 5. cost-warning-at-80pct
+**触发条件**: 今日成本接近日收入预算  
+**阈值**: 成本 > 收入 × 80%  
+**行动**:
+- 发出警告
+- 建议降低 LLM 调用复杂度
+- 考虑使用更便宜的模型
+
+### 6. quality-first-approach
+**触发条件**: 任务质量评分 < 0.6 被拒付  
+**行动**:
+- 记录失败原因
+- 调整任务策略
+- 下次提高质量
+
+### 7. track-cost-per-task
+**触发条件**: 每个任务完成时  
+**行动**:
+- 记录 token 使用量
+- 优化未来任务成本
+- 建立成本基准
+
+### 8. automatic-recovery-plan
+**触发条件**: 进入 struggling 状态  
+**行动**:
+- 立即启动收入最大化策略
+- 暂停所有学习投资
+- 每日检查恢复进度
+
+### 9. learning-investment-strategy
+**触发条件**: 稳定或繁荣状态  
+**规则**:
+- Stable: 30% 收入用于学习
+- Thriving: 50% 收入用于学习
+
+### 10. profit-locking-mechanism
+**触发条件**: 盈利达到 50% 目标  
+**行动**:
+- 锁定利润（保留不动）
+- 继续用本金投资
+- 避免过度自信
+
+---
+
+## 集成到 Memory System
+
+### 添加到 instincts.json
+
+```json
+{
+  "instincts": [
+    {
+      "id": "clawwork-balance-check",
+      "name": "check-balance-before-work",
+      "description": "工作前检查经济状态",
+      "trigger": "高成本任务执行前",
+      "action": "if balance < 5: skip or downgrade"
+    },
+    {
+      "id": "clawwork-high-pay",
+      "name": "prioritize-high-pay-tasks",
+      "description": "挣扎时优先高价值任务",
+      "trigger": "struggling 状态",
+      "action": "优先 moltx_article > botlearn_post"
+    },
+    {
+      "id": "clawwork-learn-thriving",
+      "name": "switch-to-learn-when-thriving",
+      "description": "繁荣时优先学习",
+      "trigger": "thriving 状态 (balance > 500)",
+      "action": "70% 学习，30% 工作"
+    }
+  ]
+}
+```
+
+### 激活命令
+
+```bash
+# 注册经济本能
+cp memory/clawwork-instincts.json memory/instincts.json
+git add memory/instincts.json
+git commit -m "🧠 添加 ClawWork 经济本能"
+```
+
+---
+
+## 自动激活规则
+
+### Cron 集成
+
+```bash
+# 每日 06:00 检查本能触发
+0 6 * * * python3 scripts/check-clawwork-instincts.py
+```
+
+### 任务执行集成
+
+每个任务执行前调用本能检查：
+```python
+def check_instincts_before_task(task_type):
+    """任务执行前本能检查"""
+    if not instincts["check-balance-before-work"](task_type):
+        return False  # 被本能阻止
+    return True
+```
+
+---
+
+## 本能性能监控
+
+### 追踪指标
+
+- 本能触发次数
+- 避免成本（$）
+- 额外收入（$）
+- 质量提升（%）
+
+### 报告位置
+
+`/root/.openclaw/workspace/data/claw/instinct_performance.jsonl`
+
+---
+
+## 失效保护
+
+如果 EconomicTracker 不可用：
+1. 使用默认保守策略
+2. 默认工作模式
+3. 标记需要人工检查
+
+---
+
+**最后更新**: 2026-02-17 02:30
+**版本**: v1.0
+**状态**: 🔵 待集成
