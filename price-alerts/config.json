@@ -1,0 +1,25 @@
+{
+  "alerts": [
+    {
+      "symbol": "BTC-USD",
+      "type": "price_above",
+      "threshold": 75000.0,
+      "notification": "telegram",
+      "message": "BTC \u7a81\u7834\u5173\u952e\u4ef7\u683c\uff01"
+    },
+    {
+      "symbol": "BTC-USD",
+      "type": "change_percent",
+      "threshold": 5.0,
+      "notification": "telegram",
+      "message": "BTC \u6da8\u8dcc\u5e45\u8d85\u8fc7 \u00b15%"
+    }
+  ],
+  "check_interval": 60,
+  "notification": {
+    "telegram": {
+      "bot_token": "YOUR_BOT_TOKEN",
+      "chat_id": "YOUR_CHAT_ID"
+    }
+  }
+}
